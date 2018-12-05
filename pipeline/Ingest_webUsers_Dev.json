@@ -1,0 +1,64 @@
+{
+	"name": "Ingest_webUsers_Dev",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_k3h",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false
+				},
+				"userProperties": [
+					{
+						"name": "Destination",
+						"value": "[stg].[WebUser]"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"sqlReaderQuery": "/****** Script for SelectTopNRows command from SSMS  ******/\nSELECT  [Id]\n      ,[FirstName]\n      ,[LastName]\n      ,[MiddleName]\n      ,[Email]\n      ,[UserName]\n      ,ENCRYPTBYCERT(CERT_ID('PassCert'),Password) AS [Encrypted_Password]\n      ,[PasswordResetKey]\n      ,[CreateDate]\n      ,[CreatedBy]\n      ,[LastModified]\n      ,[LastModifiedBy]\n      ,[Active]\n      ,[DeactivateDate]\n      ,[PreviousId]\n      ,[UserId]\n      ,[AccessLevel]\n      ,[LoginDate]\n      ,[GoldMemberNumber]\n      ,[PasswordResetDate]\n      ,[SecondaryEmail]\n  FROM [dbo].[WebUser]"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000,
+						"preCopyScript": "TRUNCATE TABLE [stg].[WebUser]"
+					},
+					"enableStaging": false,
+					"dataIntegrationUnits": 0,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": "Id: Id, FirstName: FirstName, LastName: LastName, MiddleName: MiddleName, Email: Email, UserName: UserName, Encrypted_Password: Password, PasswordResetKey: PasswordResetKey, CreateDate: CreateDate, CreatedBy: CreatedBy, LastModified: LastModified, LastModifiedBy: LastModifiedBy, Active: Active, DeactivateDate: DeactivateDate, PreviousId: PreviousId, UserId: UserId, AccessLevel: AccessLevel, LoginDate: LoginDate, GoldMemberNumber: GoldMemberNumber, PasswordResetDate: PasswordResetDate, SecondaryEmail: SecondaryEmail"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_k3h",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Destination_WebUsers_Dev",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"windowStart": {
+				"type": "String"
+			},
+			"windowEnd": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Development"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

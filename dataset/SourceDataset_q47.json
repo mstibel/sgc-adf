@@ -1,0 +1,68 @@
+{
+	"name": "SourceDataset_q47",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SGCCardDB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"type": "SqlServerTable",
+		"structure": [
+			{
+				"name": "Id",
+				"type": "Int32"
+			},
+			{
+				"name": "Name",
+				"type": "String"
+			},
+			{
+				"name": "SpecialValue",
+				"type": "String"
+			},
+			{
+				"name": "IsCreditCard",
+				"type": "Boolean"
+			},
+			{
+				"name": "UserDefined",
+				"type": "Boolean"
+			},
+			{
+				"name": "CreateDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "CreatedBy",
+				"type": "Int32"
+			},
+			{
+				"name": "LastModified",
+				"type": "DateTime"
+			},
+			{
+				"name": "LastModifiedBy",
+				"type": "Int32"
+			},
+			{
+				"name": "Active",
+				"type": "Boolean"
+			},
+			{
+				"name": "DeactivateDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "PreviousId",
+				"type": "Int32"
+			},
+			{
+				"name": "DisplayOrder",
+				"type": "Int16"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[PaymentMethod]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

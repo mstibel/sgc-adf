@@ -1,0 +1,116 @@
+{
+	"name": "Copy_DQS_Data",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_n5w",
+				"type": "ForEach",
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_n5w",
+							"type": "Copy",
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.tableName}"
+								},
+								{
+									"name": "Destination",
+									"value": "@{item().destination.tableName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlSource"
+								},
+								"sink": {
+									"type": "SqlSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"dataIntegrationUnits": 0
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_n5w",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_tableName": "@item().source.tableName"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_n5w",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_tableName": "@item().destination.tableName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"tableName": "[dqs].[Matching_CardManufacturerName]"
+						},
+						"destination": {
+							"tableName": "[dqs].[Matching_CardManufacturerName]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[dqs].[Matching_CardName]"
+						},
+						"destination": {
+							"tableName": "[dqs].[Matching_CardName]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[dqs].[Matching_CardSetName]"
+						},
+						"destination": {
+							"tableName": "[dqs].[Matching_CardSetName]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[dqs].[Matching_SubjectName]"
+						},
+						"destination": {
+							"tableName": "[dqs].[Matching_SubjectName]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[dqs].[Years_Spanned]"
+						},
+						"destination": {
+							"tableName": "[dqs].[Years_Spanned]"
+						}
+					}
+				]
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

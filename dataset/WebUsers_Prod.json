@@ -1,0 +1,100 @@
+{
+	"name": "WebUsers_Prod",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "PROD_SGC_DB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"structure": [
+			{
+				"name": "Id",
+				"type": "Int32"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "MiddleName",
+				"type": "String"
+			},
+			{
+				"name": "Email",
+				"type": "String"
+			},
+			{
+				"name": "UserName",
+				"type": "String"
+			},
+			{
+				"name": "Password",
+				"type": "Byte[]"
+			},
+			{
+				"name": "PasswordResetKey",
+				"type": "String"
+			},
+			{
+				"name": "CreateDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "CreatedBy",
+				"type": "Int32"
+			},
+			{
+				"name": "LastModified",
+				"type": "DateTime"
+			},
+			{
+				"name": "LastModifiedBy",
+				"type": "Int32"
+			},
+			{
+				"name": "Active",
+				"type": "Boolean"
+			},
+			{
+				"name": "DeactivateDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "PreviousId",
+				"type": "Int32"
+			},
+			{
+				"name": "UserId",
+				"type": "Int32"
+			},
+			{
+				"name": "AccessLevel",
+				"type": "Boolean"
+			},
+			{
+				"name": "LoginDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "GoldMemberNumber",
+				"type": "String"
+			},
+			{
+				"name": "PasswordResetDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "SecondaryEmail",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[stg].[WebUser]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

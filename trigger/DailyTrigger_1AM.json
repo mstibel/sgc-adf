@@ -1,0 +1,29 @@
+{
+	"name": "DailyTrigger_1AM",
+	"properties": {
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Ingest_PopReport_DEV",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "Ingest_Prod",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 24,
+				"startTime": "2018-07-19T01:00:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

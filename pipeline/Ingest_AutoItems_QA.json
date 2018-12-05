@@ -1,0 +1,354 @@
+{
+	"name": "Ingest_AutoItems_QA",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_l4b",
+				"type": "ForEach",
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_l4b",
+							"type": "Copy",
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.tableName}"
+								},
+								{
+									"name": "Destination",
+									"value": "@{item().destination.tableName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlSource"
+								},
+								"sink": {
+									"type": "SqlSink",
+									"writeBatchSize": 10000,
+									"preCopyScript": {
+										"value": "@item().copySink.preCopyScript",
+										"type": "Expression"
+									}
+								},
+								"enableStaging": false,
+								"dataIntegrationUnits": 0,
+								"translator": {
+									"value": "@item().copyActivity.translator",
+									"type": "Expression"
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_l4b",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_structure": "@item().source.structure",
+										"cw_tableName": "@item().source.tableName"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_l4b",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_structure": "@item().destination.structure",
+										"cw_tableName": "@item().destination.tableName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "id",
+									"type": "Int32"
+								},
+								{
+									"name": "AutoSerialNumber",
+									"type": "String"
+								},
+								{
+									"name": "Signature",
+									"type": "String"
+								},
+								{
+									"name": "ItemType",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Comments",
+									"type": "String"
+								},
+								{
+									"name": "DateAdded",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[AutoItems]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "id",
+									"type": "Int32"
+								},
+								{
+									"name": "AutoSerialNumber",
+									"type": "String"
+								},
+								{
+									"name": "Signature",
+									"type": "String"
+								},
+								{
+									"name": "ItemType",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Comments",
+									"type": "String"
+								},
+								{
+									"name": "DateAdded",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[stg].[AutoItems]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE stg.AutoItems"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"id": "id",
+									"AutoSerialNumber": "AutoSerialNumber",
+									"Signature": "Signature",
+									"ItemType": "ItemType",
+									"Description": "Description",
+									"Comments": "Comments",
+									"DateAdded": "DateAdded"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "AutoSerialNumber",
+									"type": "String"
+								},
+								{
+									"name": "SerialNumber",
+									"type": "String"
+								},
+								{
+									"name": "DateAdded",
+									"type": "DateTime"
+								},
+								{
+									"name": "AddedBy",
+									"type": "Int16"
+								}
+							],
+							"tableName": "[dbo].[AutoSerialNumber]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "AutoSerialNumber",
+									"type": "String"
+								},
+								{
+									"name": "SerialNumber",
+									"type": "String"
+								},
+								{
+									"name": "DateAdded",
+									"type": "DateTime"
+								},
+								{
+									"name": "AddedBy",
+									"type": "Int16"
+								}
+							],
+							"tableName": "[stg].[AutoSerialNumber]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE stg.AutoSerialNumber"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"AutoSerialNumber": "AutoSerialNumber",
+									"SerialNumber": "SerialNumber",
+									"DateAdded": "DateAdded",
+									"AddedBy": "AddedBy"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Number",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "OrderBy",
+									"type": "Double"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[Grade]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Number",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "OrderBy",
+									"type": "Double"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[Grade]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE stg.Grade"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"Number": "Number",
+									"Description": "Description",
+									"OrderBy": "OrderBy",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					}
+				]
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,37 @@
+{
+	"name": "Migrate_Cards_Subjects",
+	"properties": {
+		"activities": [
+			{
+				"name": "Migrate Cards",
+				"type": "ExecutePipeline",
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Migrate_Cards",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Migrate Subjects",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Migrate Cards",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Migrate_Subjects",
+						"type": "PipelineReference"
+					}
+				}
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

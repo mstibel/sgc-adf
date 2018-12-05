@@ -1,0 +1,93 @@
+{
+	"name": "Ingest_Prod",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web Users",
+				"type": "ExecutePipeline",
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest_WebUsers_Prod",
+						"type": "PipelineReference"
+					}
+				}
+			},
+			{
+				"name": "Employees",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Web Users",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest_Employees_Prod",
+						"type": "PipelineReference"
+					}
+				}
+			},
+			{
+				"name": "Entities",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Employees",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest_Entities_Prod",
+						"type": "PipelineReference"
+					}
+				}
+			},
+			{
+				"name": "Population Report",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Entities",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest_PopReport_Prod",
+						"type": "PipelineReference"
+					}
+				}
+			},
+			{
+				"name": "Auto Items",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Population Report",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest_AutoItem_Prod",
+						"type": "PipelineReference"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "Production"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

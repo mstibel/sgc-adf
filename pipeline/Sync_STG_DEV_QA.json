@@ -1,0 +1,383 @@
+{
+	"name": "Sync_STG_DEV_QA",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_ruu",
+				"type": "ForEach",
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_ruu",
+							"type": "Copy",
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.tableName}"
+								},
+								{
+									"name": "Destination",
+									"value": "@{item().destination.tableName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlSource"
+								},
+								"sink": {
+									"type": "SqlSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"dataIntegrationUnits": 0
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_ruu",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_tableName": "@item().source.tableName"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_ruu",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_tableName": "@item().destination.tableName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"tableName": "[stg].[AuthenticationSigner]"
+						},
+						"destination": {
+							"tableName": "[stg].[AuthenticationSigner]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[AutoItems]"
+						},
+						"destination": {
+							"tableName": "[stg].[AutoItems]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Brand]"
+						},
+						"destination": {
+							"tableName": "[stg].[Brand]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Card]"
+						},
+						"destination": {
+							"tableName": "[stg].[Card]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Cards]"
+						},
+						"destination": {
+							"tableName": "[stg].[Cards]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[CardSet]"
+						},
+						"destination": {
+							"tableName": "[stg].[CardSet]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[CardToSubject]"
+						},
+						"destination": {
+							"tableName": "[stg].[CardToSubject]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Categories]"
+						},
+						"destination": {
+							"tableName": "[stg].[Categories]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Contact]"
+						},
+						"destination": {
+							"tableName": "[stg].[Contact]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[CreditCard]"
+						},
+						"destination": {
+							"tableName": "[stg].[CreditCard]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Employee]"
+						},
+						"destination": {
+							"tableName": "[stg].[Employee]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Grade]"
+						},
+						"destination": {
+							"tableName": "[stg].[Grade]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[GradingFees]"
+						},
+						"destination": {
+							"tableName": "[stg].[GradingFees]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[GradingService]"
+						},
+						"destination": {
+							"tableName": "[stg].[GradingService]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Invoice]"
+						},
+						"destination": {
+							"tableName": "[stg].[Invoice]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[InvoiceItem]"
+						},
+						"destination": {
+							"tableName": "[stg].[InvoiceItem]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[InvoicePayment]"
+						},
+						"destination": {
+							"tableName": "[stg].[InvoicePayment]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Parallel]"
+						},
+						"destination": {
+							"tableName": "[stg].[Parallel]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Params]"
+						},
+						"destination": {
+							"tableName": "[stg].[Params]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[PaymentMethod]"
+						},
+						"destination": {
+							"tableName": "[stg].[PaymentMethod]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[PopulationReport]"
+						},
+						"destination": {
+							"tableName": "[stg].[PopulationReport]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Publisher]"
+						},
+						"destination": {
+							"tableName": "[stg].[Publisher]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[RejectCode]"
+						},
+						"destination": {
+							"tableName": "[stg].[RejectCode]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[ReturnShipping]"
+						},
+						"destination": {
+							"tableName": "[stg].[ReturnShipping]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Sets]"
+						},
+						"destination": {
+							"tableName": "[stg].[Sets]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[ShipMethod]"
+						},
+						"destination": {
+							"tableName": "[stg].[ShipMethod]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[ShowAppearance]"
+						},
+						"destination": {
+							"tableName": "[stg].[ShowAppearance]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Sport]"
+						},
+						"destination": {
+							"tableName": "[stg].[Sport]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[Subject]"
+						},
+						"destination": {
+							"tableName": "[stg].[Subject]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[SubjectAlias]"
+						},
+						"destination": {
+							"tableName": "[stg].[SubjectAlias]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[UserMadeSetCards]"
+						},
+						"destination": {
+							"tableName": "[stg].[UserMadeSetCards]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[UserMadeSets]"
+						},
+						"destination": {
+							"tableName": "[stg].[UserMadeSets]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[usersetcarddetails]"
+						},
+						"destination": {
+							"tableName": "[stg].[usersetcarddetails]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[UserSetCards]"
+						},
+						"destination": {
+							"tableName": "[stg].[UserSetCards]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[UserSets]"
+						},
+						"destination": {
+							"tableName": "[stg].[UserSets]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[WebInvoice]"
+						},
+						"destination": {
+							"tableName": "[stg].[WebInvoice]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[WebInvoiceItem]"
+						},
+						"destination": {
+							"tableName": "[stg].[WebInvoiceItem]"
+						}
+					},
+					{
+						"source": {
+							"tableName": "[stg].[WebUser]"
+						},
+						"destination": {
+							"tableName": "[stg].[WebUser]"
+						}
+					}
+				]
+			}
+		},
+		"folder": {
+			"name": "QA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

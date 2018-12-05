@@ -1,0 +1,108 @@
+{
+	"name": "Destination_Employee_Prod",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "PROD_SGC_DB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"structure": [
+			{
+				"name": "Id",
+				"type": "Int32"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "Address1",
+				"type": "String"
+			},
+			{
+				"name": "Address2",
+				"type": "String"
+			},
+			{
+				"name": "City",
+				"type": "String"
+			},
+			{
+				"name": "State",
+				"type": "String"
+			},
+			{
+				"name": "ZipCode",
+				"type": "String"
+			},
+			{
+				"name": "HomePhone",
+				"type": "String"
+			},
+			{
+				"name": "WorkPhone",
+				"type": "String"
+			},
+			{
+				"name": "CellPhone",
+				"type": "String"
+			},
+			{
+				"name": "Email",
+				"type": "String"
+			},
+			{
+				"name": "SecondaryEmail",
+				"type": "String"
+			},
+			{
+				"name": "UserName",
+				"type": "String"
+			},
+			{
+				"name": "Password",
+				"type": "Byte[]"
+			},
+			{
+				"name": "CreateDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "CreatedBy",
+				"type": "Int32"
+			},
+			{
+				"name": "LastModified",
+				"type": "DateTime"
+			},
+			{
+				"name": "LastModifiedBy",
+				"type": "Int32"
+			},
+			{
+				"name": "Active",
+				"type": "Boolean"
+			},
+			{
+				"name": "DeactivateDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "PreviousId",
+				"type": "Int32"
+			},
+			{
+				"name": "LoginDate",
+				"type": "DateTime"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[stg].[Employee]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,93 @@
+{
+	"name": "Migrate_All",
+	"properties": {
+		"activities": [
+			{
+				"name": "Migrate Users",
+				"type": "ExecutePipeline",
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Migrate_Users",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Migrate Manufacturers",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Migrate Users",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Migrate_CardManufacturer",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Migrate Card Sets",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Migrate Manufacturers",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Migrate_CardSets",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Migrate Cards",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Migrate Card Sets",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Migrate_Cards",
+						"type": "PipelineReference"
+					}
+				}
+			},
+			{
+				"name": "Migrate Subjects",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Migrate Cards",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Migrate_Subjects",
+						"type": "PipelineReference"
+					}
+				}
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

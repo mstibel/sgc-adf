@@ -1,0 +1,59 @@
+{
+	"name": "Ingest_PopReport_Prod",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_PopReport",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "[dbo].[PopulationReport]"
+					},
+					{
+						"name": "Destination",
+						"value": "[stg].[PopulationReport]"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000,
+						"preCopyScript": "TRUNCATE TABLE stg.PopulationReport"
+					},
+					"enableStaging": false,
+					"dataIntegrationUnits": 0,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": "Id: Id, CardId: CardId, SportId: SportId, SetId: SetId, Year: Year, SetName: SetName, CardNumber: CardNumber, Subjects: Subjects, Description: Description, GradeA: GradeA, Grade10: Grade10, Grade20: Grade20, Grade30: Grade30, Grade35: Grade35, Grade40: Grade40, Grade50: Grade50, Grade60: Grade60, Grade70: Grade70, Grade80: Grade80, Grade84: Grade84, Grade86: Grade86, Grade88: Grade88, Grade92: Grade92, Grade96: Grade96, Grade98: Grade98, Grade100: Grade100, Grade45: Grade45, Grade55: Grade55, Grade82: Grade82"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_8w5",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Destination_PopReport_Prod",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "Production"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

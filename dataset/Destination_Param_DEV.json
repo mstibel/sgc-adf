@@ -1,0 +1,29 @@
+{
+	"name": "Destination_Param_DEV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DEV_SGC_DB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"cw_structure": {
+				"type": "Array"
+			},
+			"cw_tableName": {
+				"type": "String"
+			}
+		},
+		"type": "AzureSqlTable",
+		"structure": {
+			"value": "@dataset().cw_structure",
+			"type": "Expression"
+		},
+		"typeProperties": {
+			"tableName": {
+				"value": "@dataset().cw_tableName",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

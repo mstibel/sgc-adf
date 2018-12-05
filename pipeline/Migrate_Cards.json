@@ -1,0 +1,28 @@
+{
+	"name": "Migrate_Cards",
+	"properties": {
+		"activities": [
+			{
+				"name": "Migrate Cards",
+				"type": "ExecuteSSISPackage",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false
+				},
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "Migration/SGC.ETLs/SGC07 - Master Data Migration - Cards.dtsx"
+					},
+					"loggingLevel": "Basic",
+					"connectVia": {
+						"referenceName": "qa-sgc-adf-ssis",
+						"type": "IntegrationRuntimeReference"
+					}
+				}
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,132 @@
+{
+	"name": "DestinationDataset_8w5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DEV_SGC_DB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"structure": [
+			{
+				"name": "Id",
+				"type": "Int32"
+			},
+			{
+				"name": "CardId",
+				"type": "Int32"
+			},
+			{
+				"name": "SportId",
+				"type": "Int32"
+			},
+			{
+				"name": "SetId",
+				"type": "Int32"
+			},
+			{
+				"name": "Year",
+				"type": "String"
+			},
+			{
+				"name": "SetName",
+				"type": "String"
+			},
+			{
+				"name": "CardNumber",
+				"type": "String"
+			},
+			{
+				"name": "Subjects",
+				"type": "String"
+			},
+			{
+				"name": "Description",
+				"type": "String"
+			},
+			{
+				"name": "GradeA",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade10",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade20",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade30",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade35",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade40",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade50",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade60",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade70",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade80",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade84",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade86",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade88",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade92",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade96",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade98",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade100",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade45",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade55",
+				"type": "Int32"
+			},
+			{
+				"name": "Grade82",
+				"type": "Int32"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[stg].[PopulationReport]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

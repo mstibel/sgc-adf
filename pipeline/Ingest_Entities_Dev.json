@@ -1,0 +1,3179 @@
+{
+	"name": "Ingest_Entities_Dev",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_19p",
+				"type": "ForEach",
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_19p",
+							"type": "Copy",
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.tableName}"
+								},
+								{
+									"name": "Destination",
+									"value": "@{item().destination.tableName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlSource"
+								},
+								"sink": {
+									"type": "SqlSink",
+									"writeBatchSize": 10000,
+									"preCopyScript": {
+										"value": "@item().copySink.preCopyScript",
+										"type": "Expression"
+									}
+								},
+								"enableStaging": false,
+								"dataIntegrationUnits": 0
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_19p",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_structure": "@item().source.structure",
+										"cw_tableName": "@item().source.tableName"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Destination_Param_DEV",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_structure": "@item().destination.structure",
+										"cw_tableName": "@item().destination.tableName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "SubjectOverride",
+									"type": "String"
+								},
+								{
+									"name": "Description2",
+									"type": "String"
+								},
+								{
+									"name": "SetId",
+									"type": "Int32"
+								},
+								{
+									"name": "Variation",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[Card]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "SubjectOverride",
+									"type": "String"
+								},
+								{
+									"name": "Description2",
+									"type": "String"
+								},
+								{
+									"name": "SetId",
+									"type": "Int32"
+								},
+								{
+									"name": "Variation",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[Card]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Card]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"CardNumber": "CardNumber",
+									"Description": "Description",
+									"SubjectOverride": "SubjectOverride",
+									"Description2": "Description2",
+									"SetId": "SetId",
+									"Variation": "Variation",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "CardID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetID",
+									"type": "Int32"
+								},
+								{
+									"name": "CardName",
+									"type": "String"
+								},
+								{
+									"name": "Weight",
+									"type": "Decimal"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[Cards]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "CardID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetID",
+									"type": "Int32"
+								},
+								{
+									"name": "CardName",
+									"type": "String"
+								},
+								{
+									"name": "Weight",
+									"type": "Decimal"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[stg].[Cards]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Cards]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"CardID": "CardID",
+									"OldCardID": "OldCardID",
+									"SetID": "SetID",
+									"CardName": "CardName",
+									"Weight": "Weight",
+									"CardNumber": "CardNumber",
+									"DateCreated": "DateCreated",
+									"DateUpdated": "DateUpdated"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "PublisherId",
+									"type": "Int32"
+								},
+								{
+									"name": "SportId",
+									"type": "Int32"
+								},
+								{
+									"name": "ACCNumber",
+									"type": "String"
+								},
+								{
+									"name": "PrintACCNumber",
+									"type": "Boolean"
+								},
+								{
+									"name": "BrandId",
+									"type": "Int32"
+								},
+								{
+									"name": "Parallel",
+									"type": "Boolean"
+								},
+								{
+									"name": "ParentSetId",
+									"type": "Int32"
+								},
+								{
+									"name": "Year",
+									"type": "String"
+								},
+								{
+									"name": "HidePublisherOnLabel",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[CardSet]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "PublisherId",
+									"type": "Int32"
+								},
+								{
+									"name": "SportId",
+									"type": "Int32"
+								},
+								{
+									"name": "ACCNumber",
+									"type": "String"
+								},
+								{
+									"name": "PrintACCNumber",
+									"type": "Boolean"
+								},
+								{
+									"name": "BrandId",
+									"type": "Int32"
+								},
+								{
+									"name": "Parallel",
+									"type": "Boolean"
+								},
+								{
+									"name": "ParentSetId",
+									"type": "Int32"
+								},
+								{
+									"name": "Year",
+									"type": "String"
+								},
+								{
+									"name": "HidePublisherOnLabel",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[CardSet]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[CardSet]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"Name": "Name",
+									"Description": "Description",
+									"PublisherId": "PublisherId",
+									"SportId": "SportId",
+									"ACCNumber": "ACCNumber",
+									"PrintACCNumber": "PrintACCNumber",
+									"BrandId": "BrandId",
+									"Parallel": "Parallel",
+									"ParentSetId": "ParentSetId",
+									"Year": "Year",
+									"HidePublisherOnLabel": "HidePublisherOnLabel",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "SubjectId",
+									"type": "Int32"
+								},
+								{
+									"name": "CardId",
+									"type": "Int32"
+								},
+								{
+									"name": "Master1",
+									"type": "Boolean"
+								},
+								{
+									"name": "Master2",
+									"type": "Boolean"
+								},
+								{
+									"name": "Rookie",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[CardToSubject]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "SubjectId",
+									"type": "Int32"
+								},
+								{
+									"name": "CardId",
+									"type": "Int32"
+								},
+								{
+									"name": "Master1",
+									"type": "Boolean"
+								},
+								{
+									"name": "Master2",
+									"type": "Boolean"
+								},
+								{
+									"name": "Rookie",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[stg].[CardToSubject]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[CardToSubject]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"SubjectId": "SubjectId",
+									"CardId": "CardId",
+									"Master1": "Master1",
+									"Master2": "Master2",
+									"Rookie": "Rookie",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "CategoryID",
+									"type": "Int32"
+								},
+								{
+									"name": "CategoryName",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DisplayOrder",
+									"type": "Byte"
+								},
+								{
+									"name": "RegistryID",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[Categories]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "CategoryID",
+									"type": "Int32"
+								},
+								{
+									"name": "CategoryName",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DisplayOrder",
+									"type": "Byte"
+								},
+								{
+									"name": "RegistryID",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[Categories]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Categories]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"CategoryID": "CategoryID",
+									"CategoryName": "CategoryName",
+									"Published": "Published",
+									"DateCreated": "DateCreated",
+									"DisplayOrder": "DisplayOrder",
+									"RegistryID": "RegistryID"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "WebUserId",
+									"type": "Int32"
+								},
+								{
+									"name": "AddressType",
+									"type": "Int32"
+								},
+								{
+									"name": "CompanyName",
+									"type": "String"
+								},
+								{
+									"name": "Address1",
+									"type": "String"
+								},
+								{
+									"name": "Address2",
+									"type": "String"
+								},
+								{
+									"name": "City",
+									"type": "String"
+								},
+								{
+									"name": "State",
+									"type": "String"
+								},
+								{
+									"name": "ZipCode",
+									"type": "String"
+								},
+								{
+									"name": "Country",
+									"type": "String"
+								},
+								{
+									"name": "Phone",
+									"type": "String"
+								},
+								{
+									"name": "FaxNumber",
+									"type": "String"
+								},
+								{
+									"name": "CellPhone",
+									"type": "String"
+								},
+								{
+									"name": "Notes",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[Contact]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "WebUserId",
+									"type": "Int32"
+								},
+								{
+									"name": "AddressType",
+									"type": "Int32"
+								},
+								{
+									"name": "CompanyName",
+									"type": "String"
+								},
+								{
+									"name": "Address1",
+									"type": "String"
+								},
+								{
+									"name": "Address2",
+									"type": "String"
+								},
+								{
+									"name": "City",
+									"type": "String"
+								},
+								{
+									"name": "State",
+									"type": "String"
+								},
+								{
+									"name": "ZipCode",
+									"type": "String"
+								},
+								{
+									"name": "Country",
+									"type": "String"
+								},
+								{
+									"name": "Phone",
+									"type": "String"
+								},
+								{
+									"name": "FaxNumber",
+									"type": "String"
+								},
+								{
+									"name": "CellPhone",
+									"type": "String"
+								},
+								{
+									"name": "Notes",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[Contact]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Contact]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"WebUserId": "WebUserId",
+									"AddressType": "AddressType",
+									"CompanyName": "CompanyName",
+									"Address1": "Address1",
+									"Address2": "Address2",
+									"City": "City",
+									"State": "State",
+									"ZipCode": "ZipCode",
+									"Country": "Country",
+									"Phone": "Phone",
+									"FaxNumber": "FaxNumber",
+									"CellPhone": "CellPhone",
+									"Notes": "Notes",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "WebUserId",
+									"type": "Int32"
+								},
+								{
+									"name": "InvoiceNumber",
+									"type": "Int32"
+								},
+								{
+									"name": "GradingServiceId",
+									"type": "Int32"
+								},
+								{
+									"name": "ContactId",
+									"type": "Int32"
+								},
+								{
+									"name": "TotalItems",
+									"type": "Int32"
+								},
+								{
+									"name": "Insurance",
+									"type": "Double"
+								},
+								{
+									"name": "Fees",
+									"type": "Double"
+								},
+								{
+									"name": "Postage",
+									"type": "Double"
+								},
+								{
+									"name": "SalesTax",
+									"type": "Double"
+								},
+								{
+									"name": "DateReceived",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateVerified",
+									"type": "DateTime"
+								},
+								{
+									"name": "DueDays",
+									"type": "Int32"
+								},
+								{
+									"name": "VerifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "DateShipped",
+									"type": "DateTime"
+								},
+								{
+									"name": "ShippedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Notes",
+									"type": "String"
+								},
+								{
+									"name": "InCode",
+									"type": "Int32"
+								},
+								{
+									"name": "InBillNum",
+									"type": "String"
+								},
+								{
+									"name": "OutCode",
+									"type": "Int32"
+								},
+								{
+									"name": "OutBillNum",
+									"type": "String"
+								},
+								{
+									"name": "Closed",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								},
+								{
+									"name": "RecordCreated",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[Invoice]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "WebUserId",
+									"type": "Int32"
+								},
+								{
+									"name": "InvoiceNumber",
+									"type": "Int32"
+								},
+								{
+									"name": "GradingServiceId",
+									"type": "Int32"
+								},
+								{
+									"name": "ContactId",
+									"type": "Int32"
+								},
+								{
+									"name": "TotalItems",
+									"type": "Int32"
+								},
+								{
+									"name": "Insurance",
+									"type": "Double"
+								},
+								{
+									"name": "Fees",
+									"type": "Double"
+								},
+								{
+									"name": "Postage",
+									"type": "Double"
+								},
+								{
+									"name": "SalesTax",
+									"type": "Double"
+								},
+								{
+									"name": "DateReceived",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateVerified",
+									"type": "DateTime"
+								},
+								{
+									"name": "DueDays",
+									"type": "Int32"
+								},
+								{
+									"name": "VerifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "DateShipped",
+									"type": "DateTime"
+								},
+								{
+									"name": "ShippedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Notes",
+									"type": "String"
+								},
+								{
+									"name": "InCode",
+									"type": "Int32"
+								},
+								{
+									"name": "InBillNum",
+									"type": "String"
+								},
+								{
+									"name": "OutCode",
+									"type": "Int32"
+								},
+								{
+									"name": "OutBillNum",
+									"type": "String"
+								},
+								{
+									"name": "Closed",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								},
+								{
+									"name": "RecordCreated",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[stg].[Invoice]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Invoice]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"WebUserId": "WebUserId",
+									"InvoiceNumber": "InvoiceNumber",
+									"GradingServiceId": "GradingServiceId",
+									"ContactId": "ContactId",
+									"TotalItems": "TotalItems",
+									"Insurance": "Insurance",
+									"Fees": "Fees",
+									"Postage": "Postage",
+									"SalesTax": "SalesTax",
+									"DateReceived": "DateReceived",
+									"DateVerified": "DateVerified",
+									"DueDays": "DueDays",
+									"VerifiedBy": "VerifiedBy",
+									"DateShipped": "DateShipped",
+									"ShippedBy": "ShippedBy",
+									"Notes": "Notes",
+									"InCode": "InCode",
+									"InBillNum": "InBillNum",
+									"OutCode": "OutCode",
+									"OutBillNum": "OutBillNum",
+									"Closed": "Closed",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId",
+									"RecordCreated": "RecordCreated"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "InvoiceId",
+									"type": "Int32"
+								},
+								{
+									"name": "LineNumber",
+									"type": "Int32"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Description2",
+									"type": "String"
+								},
+								{
+									"name": "CardId",
+									"type": "Int32"
+								},
+								{
+									"name": "Value",
+									"type": "Double"
+								},
+								{
+									"name": "FinalGradeId",
+									"type": "Int32"
+								},
+								{
+									"name": "ParallelId",
+									"type": "Int32"
+								},
+								{
+									"name": "GradeDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "GradedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "EncapsulationDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "EncapsulatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "RejectCodeId",
+									"type": "Int32"
+								},
+								{
+									"name": "Comments",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[InvoiceItem]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "InvoiceId",
+									"type": "Int32"
+								},
+								{
+									"name": "LineNumber",
+									"type": "Int32"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Description2",
+									"type": "String"
+								},
+								{
+									"name": "CardId",
+									"type": "Int32"
+								},
+								{
+									"name": "Value",
+									"type": "Double"
+								},
+								{
+									"name": "FinalGradeId",
+									"type": "Int32"
+								},
+								{
+									"name": "ParallelId",
+									"type": "Int32"
+								},
+								{
+									"name": "GradeDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "GradedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "EncapsulationDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "EncapsulatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "RejectCodeId",
+									"type": "Int32"
+								},
+								{
+									"name": "Comments",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[InvoiceItem]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[InvoiceItem]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"InvoiceId": "InvoiceId",
+									"LineNumber": "LineNumber",
+									"Description": "Description",
+									"Description2": "Description2",
+									"CardId": "CardId",
+									"Value": "Value",
+									"FinalGradeId": "FinalGradeId",
+									"ParallelId": "ParallelId",
+									"GradeDate": "GradeDate",
+									"GradedBy": "GradedBy",
+									"EncapsulationDate": "EncapsulationDate",
+									"EncapsulatedBy": "EncapsulatedBy",
+									"RejectCodeId": "RejectCodeId",
+									"Comments": "Comments",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Details",
+									"type": "String"
+								},
+								{
+									"name": "Display",
+									"type": "Boolean"
+								},
+								{
+									"name": "Code",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[Publisher]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Details",
+									"type": "String"
+								},
+								{
+									"name": "Display",
+									"type": "Boolean"
+								},
+								{
+									"name": "Code",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[Publisher]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Publisher]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"Name": "Name",
+									"Details": "Details",
+									"Display": "Display",
+									"Code": "Code",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "SetID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetName",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "Edits",
+									"type": "Boolean"
+								},
+								{
+									"name": "CategoryID",
+									"type": "Int32"
+								},
+								{
+									"name": "RegistryID",
+									"type": "Int32"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "matchnew",
+									"type": "String"
+								},
+								{
+									"name": "subcategory",
+									"type": "String"
+								}
+							],
+							"tableName": "[dbo].[Sets]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "SetID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetName",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "Edits",
+									"type": "Boolean"
+								},
+								{
+									"name": "CategoryID",
+									"type": "Int32"
+								},
+								{
+									"name": "RegistryID",
+									"type": "Int32"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "matchnew",
+									"type": "String"
+								},
+								{
+									"name": "subcategory",
+									"type": "String"
+								}
+							],
+							"tableName": "[stg].[Sets]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Sets]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"SetID": "SetID",
+									"OldSetID": "OldSetID",
+									"SetName": "SetName",
+									"Description": "Description",
+									"Published": "Published",
+									"Edits": "Edits",
+									"CategoryID": "CategoryID",
+									"RegistryID": "RegistryID",
+									"DateCreated": "DateCreated",
+									"DateUpdated": "DateUpdated",
+									"matchnew": "matchnew",
+									"subcategory": "subcategory"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Code",
+									"type": "String"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Team",
+									"type": "Boolean"
+								},
+								{
+									"name": "Display",
+									"type": "Boolean"
+								},
+								{
+									"name": "Image",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[Sport]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Code",
+									"type": "String"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Team",
+									"type": "Boolean"
+								},
+								{
+									"name": "Display",
+									"type": "Boolean"
+								},
+								{
+									"name": "Image",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[Sport]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Sport]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"Code": "Code",
+									"Name": "Name",
+									"Team": "Team",
+									"Display": "Display",
+									"Image": "Image",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "FirstName",
+									"type": "String"
+								},
+								{
+									"name": "MiddleName",
+									"type": "String"
+								},
+								{
+									"name": "LastName",
+									"type": "String"
+								},
+								{
+									"name": "FullName",
+									"type": "String"
+								},
+								{
+									"name": "SportId",
+									"type": "Int32"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[Subject]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "FirstName",
+									"type": "String"
+								},
+								{
+									"name": "MiddleName",
+									"type": "String"
+								},
+								{
+									"name": "LastName",
+									"type": "String"
+								},
+								{
+									"name": "FullName",
+									"type": "String"
+								},
+								{
+									"name": "SportId",
+									"type": "Int32"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[stg].[Subject]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[Subject]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"FirstName": "FirstName",
+									"MiddleName": "MiddleName",
+									"LastName": "LastName",
+									"FullName": "FullName",
+									"SportId": "SportId",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "SubjectId",
+									"type": "Int32"
+								},
+								{
+									"name": "FirstName",
+									"type": "String"
+								},
+								{
+									"name": "MiddleName",
+									"type": "String"
+								},
+								{
+									"name": "LastName",
+									"type": "String"
+								},
+								{
+									"name": "FullName",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[SubjectAlias]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "SubjectId",
+									"type": "Int32"
+								},
+								{
+									"name": "FirstName",
+									"type": "String"
+								},
+								{
+									"name": "MiddleName",
+									"type": "String"
+								},
+								{
+									"name": "LastName",
+									"type": "String"
+								},
+								{
+									"name": "FullName",
+									"type": "String"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[stg].[SubjectAlias]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[SubjectAlias]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"SubjectId": "SubjectId",
+									"FirstName": "FirstName",
+									"MiddleName": "MiddleName",
+									"LastName": "LastName",
+									"FullName": "FullName",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "UserMadeSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldUserMadeSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "UserMadeSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "Cert",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "CardName",
+									"type": "String"
+								},
+								{
+									"name": "Year",
+									"type": "String"
+								},
+								{
+									"name": "Manufacturer",
+									"type": "String"
+								},
+								{
+									"name": "PlayerTeam",
+									"type": "String"
+								},
+								{
+									"name": "Grade",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "HasScan",
+									"type": "Boolean"
+								}
+							],
+							"tableName": "[dbo].[UserMadeSetCards]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "UserMadeSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldUserMadeSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "UserMadeSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "Cert",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "CardName",
+									"type": "String"
+								},
+								{
+									"name": "Year",
+									"type": "String"
+								},
+								{
+									"name": "Manufacturer",
+									"type": "String"
+								},
+								{
+									"name": "PlayerTeam",
+									"type": "String"
+								},
+								{
+									"name": "Grade",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "HasScan",
+									"type": "Boolean"
+								}
+							],
+							"tableName": "[stg].[UserMadeSetCards]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[UserMadeSetCards]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"UserMadeSetCardID": "UserMadeSetCardID",
+									"OldUserMadeSetCardID": "OldUserMadeSetCardID",
+									"UserMadeSetID": "UserMadeSetID",
+									"Cert": "Cert",
+									"Published": "Published",
+									"CardNumber": "CardNumber",
+									"CardName": "CardName",
+									"Year": "Year",
+									"Manufacturer": "Manufacturer",
+									"PlayerTeam": "PlayerTeam",
+									"Grade": "Grade",
+									"Description": "Description",
+									"DateCreated": "DateCreated",
+									"DateUpdated": "DateUpdated",
+									"HasScan": "HasScan"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "UserMadeSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetName",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "Edits",
+									"type": "Boolean"
+								},
+								{
+									"name": "Email",
+									"type": "Boolean"
+								},
+								{
+									"name": "CategoryID",
+									"type": "Int32"
+								},
+								{
+									"name": "RegistryID",
+									"type": "Int32"
+								},
+								{
+									"name": "UserID",
+									"type": "Int32"
+								},
+								{
+									"name": "BestSetRating",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "Scans",
+									"type": "Boolean"
+								}
+							],
+							"tableName": "[dbo].[UserMadeSets]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "UserMadeSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetName",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "Edits",
+									"type": "Boolean"
+								},
+								{
+									"name": "Email",
+									"type": "Boolean"
+								},
+								{
+									"name": "CategoryID",
+									"type": "Int32"
+								},
+								{
+									"name": "RegistryID",
+									"type": "Int32"
+								},
+								{
+									"name": "UserID",
+									"type": "Int32"
+								},
+								{
+									"name": "BestSetRating",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "Scans",
+									"type": "Boolean"
+								}
+							],
+							"tableName": "[stg].[UserMadeSets]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[UserMadeSets]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"UserMadeSetID": "UserMadeSetID",
+									"OldSetID": "OldSetID",
+									"SetName": "SetName",
+									"Description": "Description",
+									"Published": "Published",
+									"Edits": "Edits",
+									"Email": "Email",
+									"CategoryID": "CategoryID",
+									"RegistryID": "RegistryID",
+									"UserID": "UserID",
+									"BestSetRating": "BestSetRating",
+									"DateCreated": "DateCreated",
+									"DateUpdated": "DateUpdated",
+									"Scans": "Scans"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "UserSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "CardName",
+									"type": "String"
+								},
+								{
+									"name": "Year",
+									"type": "String"
+								},
+								{
+									"name": "Manufacturer",
+									"type": "String"
+								},
+								{
+									"name": "Comments",
+									"type": "String"
+								}
+							],
+							"tableName": "[dbo].[usersetcarddetails]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "UserSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "CardName",
+									"type": "String"
+								},
+								{
+									"name": "Year",
+									"type": "String"
+								},
+								{
+									"name": "Manufacturer",
+									"type": "String"
+								},
+								{
+									"name": "Comments",
+									"type": "String"
+								}
+							],
+							"tableName": "[stg].[usersetcarddetails]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[usersetcarddetails]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"UserSetCardID": "UserSetCardID",
+									"CardNumber": "CardNumber",
+									"CardName": "CardName",
+									"Year": "Year",
+									"Manufacturer": "Manufacturer",
+									"Comments": "Comments"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "UserSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldUserSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "CardID",
+									"type": "Int32"
+								},
+								{
+									"name": "UserSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "Cert",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Grade",
+									"type": "Decimal"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "HasScan",
+									"type": "Boolean"
+								}
+							],
+							"tableName": "[dbo].[UserSetCards]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "UserSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldUserSetCardID",
+									"type": "Int32"
+								},
+								{
+									"name": "CardID",
+									"type": "Int32"
+								},
+								{
+									"name": "UserSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "Cert",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Grade",
+									"type": "Decimal"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "HasScan",
+									"type": "Boolean"
+								}
+							],
+							"tableName": "[stg].[UserSetCards]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[UserSetCards]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"UserSetCardID": "UserSetCardID",
+									"OldUserSetCardID": "OldUserSetCardID",
+									"CardID": "CardID",
+									"UserSetID": "UserSetID",
+									"Cert": "Cert",
+									"Description": "Description",
+									"Grade": "Grade",
+									"Published": "Published",
+									"DateCreated": "DateCreated",
+									"DateUpdated": "DateUpdated",
+									"HasScan": "HasScan"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "UserSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldUserSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetID",
+									"type": "Int32"
+								},
+								{
+									"name": "UserID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetName",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "Edits",
+									"type": "Boolean"
+								},
+								{
+									"name": "Email",
+									"type": "Boolean"
+								},
+								{
+									"name": "Scans",
+									"type": "Boolean"
+								},
+								{
+									"name": "Completion",
+									"type": "Int32"
+								},
+								{
+									"name": "Grade",
+									"type": "Decimal"
+								},
+								{
+									"name": "Rating",
+									"type": "Decimal"
+								},
+								{
+									"name": "Weight",
+									"type": "Decimal"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "CardSetID",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[UserSets]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "UserSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "OldUserSetID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetID",
+									"type": "Int32"
+								},
+								{
+									"name": "UserID",
+									"type": "Int32"
+								},
+								{
+									"name": "SetName",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Published",
+									"type": "Boolean"
+								},
+								{
+									"name": "Edits",
+									"type": "Boolean"
+								},
+								{
+									"name": "Email",
+									"type": "Boolean"
+								},
+								{
+									"name": "Scans",
+									"type": "Boolean"
+								},
+								{
+									"name": "Completion",
+									"type": "Int32"
+								},
+								{
+									"name": "Grade",
+									"type": "Decimal"
+								},
+								{
+									"name": "Rating",
+									"type": "Decimal"
+								},
+								{
+									"name": "Weight",
+									"type": "Decimal"
+								},
+								{
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "DateUpdated",
+									"type": "DateTime"
+								},
+								{
+									"name": "CardSetID",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[UserSets]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[UserSets]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"UserSetID": "UserSetID",
+									"OldUserSetID": "OldUserSetID",
+									"SetID": "SetID",
+									"UserID": "UserID",
+									"SetName": "SetName",
+									"Description": "Description",
+									"Published": "Published",
+									"Edits": "Edits",
+									"Email": "Email",
+									"Scans": "Scans",
+									"Completion": "Completion",
+									"Grade": "Grade",
+									"Rating": "Rating",
+									"Weight": "Weight",
+									"DateCreated": "DateCreated",
+									"DateUpdated": "DateUpdated",
+									"CardSetID": "CardSetID"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "InvoiceNumber",
+									"type": "Int32"
+								},
+								{
+									"name": "Authenticate",
+									"type": "Boolean"
+								},
+								{
+									"name": "WebUserId",
+									"type": "Int32"
+								},
+								{
+									"name": "FirstName",
+									"type": "String"
+								},
+								{
+									"name": "MiddleInitial",
+									"type": "String"
+								},
+								{
+									"name": "LastName",
+									"type": "String"
+								},
+								{
+									"name": "GradingServiceId",
+									"type": "Int32"
+								},
+								{
+									"name": "ShipMethod",
+									"type": "String"
+								},
+								{
+									"name": "AccountNumber",
+									"type": "String"
+								},
+								{
+									"name": "ShippingAddress1",
+									"type": "String"
+								},
+								{
+									"name": "ShippingAddress2",
+									"type": "String"
+								},
+								{
+									"name": "ShippingCity",
+									"type": "String"
+								},
+								{
+									"name": "ShippingState",
+									"type": "String"
+								},
+								{
+									"name": "ShippingZipCode",
+									"type": "String"
+								},
+								{
+									"name": "ShippingPhone",
+									"type": "String"
+								},
+								{
+									"name": "EmailAddress",
+									"type": "String"
+								},
+								{
+									"name": "TotalCards",
+									"type": "Int32"
+								},
+								{
+									"name": "Insurance",
+									"type": "Double"
+								},
+								{
+									"name": "Fees",
+									"type": "Double"
+								},
+								{
+									"name": "Postage",
+									"type": "Double"
+								},
+								{
+									"name": "TotalDue",
+									"type": "Double"
+								},
+								{
+									"name": "PaymentMethodId",
+									"type": "Int32"
+								},
+								{
+									"name": "PaymentAcctNo",
+									"type": "String"
+								},
+								{
+									"name": "PaymentName",
+									"type": "String"
+								},
+								{
+									"name": "PaymentExpireDate",
+									"type": "String"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								},
+								{
+									"name": "RecordCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "SaveForCompletion",
+									"type": "Boolean"
+								},
+								{
+									"name": "Completed",
+									"type": "Boolean"
+								}
+							],
+							"tableName": "[dbo].[WebInvoice]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "InvoiceNumber",
+									"type": "Int32"
+								},
+								{
+									"name": "Authenticate",
+									"type": "Boolean"
+								},
+								{
+									"name": "WebUserId",
+									"type": "Int32"
+								},
+								{
+									"name": "FirstName",
+									"type": "String"
+								},
+								{
+									"name": "MiddleInitial",
+									"type": "String"
+								},
+								{
+									"name": "LastName",
+									"type": "String"
+								},
+								{
+									"name": "GradingServiceId",
+									"type": "Int32"
+								},
+								{
+									"name": "ShipMethod",
+									"type": "String"
+								},
+								{
+									"name": "AccountNumber",
+									"type": "String"
+								},
+								{
+									"name": "ShippingAddress1",
+									"type": "String"
+								},
+								{
+									"name": "ShippingAddress2",
+									"type": "String"
+								},
+								{
+									"name": "ShippingCity",
+									"type": "String"
+								},
+								{
+									"name": "ShippingState",
+									"type": "String"
+								},
+								{
+									"name": "ShippingZipCode",
+									"type": "String"
+								},
+								{
+									"name": "ShippingPhone",
+									"type": "String"
+								},
+								{
+									"name": "EmailAddress",
+									"type": "String"
+								},
+								{
+									"name": "TotalCards",
+									"type": "Int32"
+								},
+								{
+									"name": "Insurance",
+									"type": "Double"
+								},
+								{
+									"name": "Fees",
+									"type": "Double"
+								},
+								{
+									"name": "Postage",
+									"type": "Double"
+								},
+								{
+									"name": "TotalDue",
+									"type": "Double"
+								},
+								{
+									"name": "PaymentMethodId",
+									"type": "Int32"
+								},
+								{
+									"name": "PaymentAcctNo",
+									"type": "String"
+								},
+								{
+									"name": "PaymentName",
+									"type": "String"
+								},
+								{
+									"name": "PaymentExpireDate",
+									"type": "String"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								},
+								{
+									"name": "RecordCreated",
+									"type": "DateTime"
+								},
+								{
+									"name": "SaveForCompletion",
+									"type": "Boolean"
+								},
+								{
+									"name": "Completed",
+									"type": "Boolean"
+								}
+							],
+							"tableName": "[stg].[WebInvoice]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[WebInvoice]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"InvoiceNumber": "InvoiceNumber",
+									"Authenticate": "Authenticate",
+									"WebUserId": "WebUserId",
+									"FirstName": "FirstName",
+									"MiddleInitial": "MiddleInitial",
+									"LastName": "LastName",
+									"GradingServiceId": "GradingServiceId",
+									"ShipMethod": "ShipMethod",
+									"AccountNumber": "AccountNumber",
+									"ShippingAddress1": "ShippingAddress1",
+									"ShippingAddress2": "ShippingAddress2",
+									"ShippingCity": "ShippingCity",
+									"ShippingState": "ShippingState",
+									"ShippingZipCode": "ShippingZipCode",
+									"ShippingPhone": "ShippingPhone",
+									"EmailAddress": "EmailAddress",
+									"TotalCards": "TotalCards",
+									"Insurance": "Insurance",
+									"Fees": "Fees",
+									"Postage": "Postage",
+									"TotalDue": "TotalDue",
+									"PaymentMethodId": "PaymentMethodId",
+									"PaymentAcctNo": "PaymentAcctNo",
+									"PaymentName": "PaymentName",
+									"PaymentExpireDate": "PaymentExpireDate",
+									"PreviousId": "PreviousId",
+									"RecordCreated": "RecordCreated",
+									"SaveForCompletion": "SaveForCompletion",
+									"Completed": "Completed"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "WebInvoiceId",
+									"type": "Int32"
+								},
+								{
+									"name": "LineNumber",
+									"type": "Int32"
+								},
+								{
+									"name": "Quantity",
+									"type": "Int32"
+								},
+								{
+									"name": "Year",
+									"type": "String"
+								},
+								{
+									"name": "IssuingCompany",
+									"type": "String"
+								},
+								{
+									"name": "PlayerName",
+									"type": "String"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "Variation",
+									"type": "String"
+								},
+								{
+									"name": "DeclaredValue",
+									"type": "Double"
+								}
+							],
+							"tableName": "[dbo].[WebInvoiceItem]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "WebInvoiceId",
+									"type": "Int32"
+								},
+								{
+									"name": "LineNumber",
+									"type": "Int32"
+								},
+								{
+									"name": "Quantity",
+									"type": "Int32"
+								},
+								{
+									"name": "Year",
+									"type": "String"
+								},
+								{
+									"name": "IssuingCompany",
+									"type": "String"
+								},
+								{
+									"name": "PlayerName",
+									"type": "String"
+								},
+								{
+									"name": "CardNumber",
+									"type": "String"
+								},
+								{
+									"name": "Variation",
+									"type": "String"
+								},
+								{
+									"name": "DeclaredValue",
+									"type": "Double"
+								}
+							],
+							"tableName": "[stg].[WebInvoiceItem]"
+						},
+						"copySink": {
+							"preCopyScript": "TRUNCATE TABLE [stg].[WebInvoiceItem]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"WebInvoiceId": "WebInvoiceId",
+									"LineNumber": "LineNumber",
+									"Quantity": "Quantity",
+									"Year": "Year",
+									"IssuingCompany": "IssuingCompany",
+									"PlayerName": "PlayerName",
+									"CardNumber": "CardNumber",
+									"Variation": "Variation",
+									"DeclaredValue": "DeclaredValue"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"folder": {
+			"name": "Development"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

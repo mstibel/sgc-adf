@@ -1,0 +1,56 @@
+{
+	"name": "Ingest_Employees_Prod",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_Employees",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false
+				},
+				"userProperties": [
+					{
+						"name": "Destination",
+						"value": "[stg].[Employee]"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"sqlReaderQuery": "SELECT [Id]\n      ,[FirstName]\n      ,[LastName]\n      ,[Address1]\n      ,[Address2]\n      ,[City]\n      ,[State]\n      ,[ZipCode]\n      ,[HomePhone]\n      ,[WorkPhone]\n      ,[CellPhone]\n      ,[Email]\n      ,[SecondaryEmail]\n      ,[UserName]\n      ,ENCRYPTBYCERT(CERT_ID('PassCert'),Password) AS [Encrypted_Password]\n      ,[CreateDate]\n      ,[CreatedBy]\n      ,[LastModified]\n      ,[LastModifiedBy]\n      ,[Active]\n      ,[DeactivateDate]\n      ,[PreviousId]\n      ,[LoginDate]\n  FROM [dbo].[Employee]"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000,
+						"preCopyScript": "TRUNCATE TABLE [stg].[Employee]"
+					},
+					"enableStaging": false,
+					"dataIntegrationUnits": 0,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": "Id: Id, FirstName: FirstName, LastName: LastName, Address1: Address1, Address2: Address2, City: City, State: State, ZipCode: ZipCode, HomePhone: HomePhone, WorkPhone: WorkPhone, CellPhone: CellPhone, Email: Email, SecondaryEmail: SecondaryEmail, UserName: UserName, Encrypted_Password: Password, CreateDate: CreateDate, CreatedBy: CreatedBy, LastModified: LastModified, LastModifiedBy: LastModifiedBy, Active: Active, DeactivateDate: DeactivateDate, PreviousId: PreviousId, LoginDate: LoginDate"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_8ug",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Destination_Employee_Prod",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "Production"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

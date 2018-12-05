@@ -1,0 +1,68 @@
+{
+	"name": "DestinationDataset_q47",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "PROD_SGC_DB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"structure": [
+			{
+				"name": "Id",
+				"type": "Int32"
+			},
+			{
+				"name": "Name",
+				"type": "String"
+			},
+			{
+				"name": "SpecialValue",
+				"type": "String"
+			},
+			{
+				"name": "IsCreditCard",
+				"type": "Boolean"
+			},
+			{
+				"name": "UserDefined",
+				"type": "Boolean"
+			},
+			{
+				"name": "CreateDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "CreatedBy",
+				"type": "Int32"
+			},
+			{
+				"name": "LastModified",
+				"type": "DateTime"
+			},
+			{
+				"name": "LastModifiedBy",
+				"type": "Int32"
+			},
+			{
+				"name": "Active",
+				"type": "Boolean"
+			},
+			{
+				"name": "DeactivateDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "PreviousId",
+				"type": "Int32"
+			},
+			{
+				"name": "DisplayOrder",
+				"type": "Int16"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[stg].[PaymentMethod]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

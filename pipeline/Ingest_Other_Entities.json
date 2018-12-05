@@ -1,0 +1,482 @@
+{
+	"name": "Ingest_Other_Entities",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_0ob",
+				"type": "ForEach",
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_0ob",
+							"type": "Copy",
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.tableName}"
+								},
+								{
+									"name": "Destination",
+									"value": "@{item().destination.tableName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlSource"
+								},
+								"sink": {
+									"type": "SqlSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"dataIntegrationUnits": 0,
+								"translator": {
+									"value": "@item().copyActivity.translator",
+									"type": "Expression"
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_0ob",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_structure": "@item().source.structure",
+										"cw_tableName": "@item().source.tableName"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_0ob",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_structure": "@item().destination.structure",
+										"cw_tableName": "@item().destination.tableName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Code",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Fee",
+									"type": "Double"
+								},
+								{
+									"name": "DueDays",
+									"type": "Int32"
+								},
+								{
+									"name": "Insure",
+									"type": "Double"
+								},
+								{
+									"name": "Display",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[GradingService]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Code",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Fee",
+									"type": "Double"
+								},
+								{
+									"name": "DueDays",
+									"type": "Int32"
+								},
+								{
+									"name": "Insure",
+									"type": "Double"
+								},
+								{
+									"name": "Display",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[GradingService]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"Code": "Code",
+									"Description": "Description",
+									"Fee": "Fee",
+									"DueDays": "DueDays",
+									"Insure": "Insure",
+									"Display": "Display",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "SportId",
+									"type": "Int32"
+								},
+								{
+									"name": "PublisherId",
+									"type": "Int32"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "BitId",
+									"type": "Int32"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[Parallel]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "SportId",
+									"type": "Int32"
+								},
+								{
+									"name": "PublisherId",
+									"type": "Int32"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "BitId",
+									"type": "Int32"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[Parallel]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"SportId": "SportId",
+									"PublisherId": "PublisherId",
+									"Description": "Description",
+									"BitId": "BitId",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Code",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Abbreviation",
+									"type": "String"
+								},
+								{
+									"name": "Position",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[dbo].[RejectCode]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int32"
+								},
+								{
+									"name": "Code",
+									"type": "String"
+								},
+								{
+									"name": "Description",
+									"type": "String"
+								},
+								{
+									"name": "Abbreviation",
+									"type": "String"
+								},
+								{
+									"name": "Position",
+									"type": "Boolean"
+								},
+								{
+									"name": "CreateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "CreatedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "LastModified",
+									"type": "DateTime"
+								},
+								{
+									"name": "LastModifiedBy",
+									"type": "Int32"
+								},
+								{
+									"name": "Active",
+									"type": "Boolean"
+								},
+								{
+									"name": "DeactivateDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PreviousId",
+									"type": "Int32"
+								}
+							],
+							"tableName": "[stg].[RejectCode]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"Code": "Code",
+									"Description": "Description",
+									"Abbreviation": "Abbreviation",
+									"Position": "Position",
+									"CreateDate": "CreateDate",
+									"CreatedBy": "CreatedBy",
+									"LastModified": "LastModified",
+									"LastModifiedBy": "LastModifiedBy",
+									"Active": "Active",
+									"DeactivateDate": "DeactivateDate",
+									"PreviousId": "PreviousId"
+								}
+							}
+						}
+					}
+				]
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

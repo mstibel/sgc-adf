@@ -1,0 +1,17 @@
+{
+	"name": "SGCCardDB_LinkedService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked Service to previous version of SGC Card Database",
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=(LOCAL);initial catalog=SGCCardDB",
+			"userName": "sporta",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1MTQ3ZWJiMC03Mzc3LTRlNTAtOGVjZC1kODgzMjIwNDE3YzciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "qa-sgc-adf-ir-sgccard",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

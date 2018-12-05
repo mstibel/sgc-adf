@@ -1,0 +1,28 @@
+{
+	"name": "Data_Quality",
+	"properties": {
+		"activities": [
+			{
+				"name": "Data Quality",
+				"type": "ExecuteSSISPackage",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false
+				},
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "Migration/SGC.ETLs/SGC01 - Data Quality Transformations.dtsx"
+					},
+					"loggingLevel": "Basic",
+					"connectVia": {
+						"referenceName": "qa-sgc-adf-ssis",
+						"type": "IntegrationRuntimeReference"
+					}
+				}
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
