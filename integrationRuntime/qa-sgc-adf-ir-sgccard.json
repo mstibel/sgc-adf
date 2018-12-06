@@ -1,7 +1,0 @@
-{
-	"name": "qa-sgc-adf-ir-sgccard",
-	"properties": {
-		"type": "SelfHosted",
-		"description": "Integration runtime for accessing SGC Card previous version Database."
-	}
-}
